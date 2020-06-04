@@ -1,37 +1,42 @@
 #include <fstream>
-#include <sstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <vector>
 using std::cout;
 using std::ifstream;
+using std::istringstream;
 using std::string;
 using std::vector;
-using std::istringstream;
 
-// TODO: Add the ParseLine function here.
-vector<int> ParseLine(string s) {
-  istringstream mystream(s);
-  int n;
-  char c;
-  vector<int> iList;
-  
-  // traverse through the string
-  while(mystream >> n >> c)
-  {    
-    //cout << n << " " << c;
-    iList.push_back(n);
-  }
-	return iList;
+
+vector<int> ParseLine(string line) {
+    istringstream sline(line);
+    int n;
+    char c;
+    vector<int> row;
+    while (sline >> n >> c && c == ',') {
+      row.push_back(n);
+    }
+    return row;
 }
-void ReadBoardFile(string path) {
+
+// TODO: Change the return type of ReadBoardFile.
+vector<vector<int>> ReadBoardFile(string path) {
   ifstream myfile (path);
+  // TODO: Declare an empty board variable here with
+  // type vector<vector<int>>.
+  vector<vector<int>> board;
   if (myfile) {
     string line;
     while (getline(myfile, line)) {
-      cout << line << "\n";
+      // TODO: Replace the "cout" code with a call to ParseLine for each line and push the results of ParseLine to the back of the board.
+      board.push_back(ParseLine(line));
+      //cout << line << "\n";
     }
   }
+  return board;
+  // TODO: Return the board variable.
 }
 
 void PrintBoard(const vector<vector<int>> board) {
@@ -43,11 +48,11 @@ void PrintBoard(const vector<vector<int>> board) {
   }
 }
 
-#include "test.cpp" // For testing.
-
 int main() {
-  ReadBoardFile("1.board");
-  TestParseLine(); // For testing.
-  // Leave commented out.
-  // PrintBoard(board);
+   
+  // TODO: Store the output of ReadBoardFile in the "board" variable.
+  vector<vector<int>> board;
+  board = ReadBoardFile("1.board");
+  // TODO: Uncomment PrintBoard below to print "board".
+  PrintBoard(board);
 }
