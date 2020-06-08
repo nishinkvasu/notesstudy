@@ -69,6 +69,19 @@ int Heuristic(int x1, int y1, int x2, int y2) {
 }
 
 
+// TODO: Write CheckValidCell here. Check that the 
+// cell is on the grid and not an obstacle (i.e. equals kEmpty).
+bool CheckValidCell(int x, int y, vector<vector <State>> &grid)
+{
+  auto ret = false;
+  if((x < grid.size()) && y<grid[x].size())
+  {
+    if(grid[x][y] == State::kEmpty)
+      ret = true;
+  }
+  return ret;
+}
+
 /** 
  * Add a node to the open list and mark it as open. 
  */
@@ -93,27 +106,24 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
   int h = Heuristic(x, y, goal[0],goal[1]);
   AddToOpen(x, y, g, h, open, grid);
 
-  // TODO: while open vector is non empty {
-  while(!open.empty()){
-    // TODO: Sort the open list using CellSort, and get the current node.
+  while (open.size() > 0) {
+    // Get the next node
     CellSort(&open);
-	auto currentNode = open.back();
+    auto current = open.back();
     open.pop_back();
-    // TODO: Get the x and y values from the current node,
-    // and set grid[x][y] to kPath.
-    x = currentNode[0];
-    y = currentNode[1];
+    x = current[0];
+    y = current[1];
     grid[x][y] = State::kPath;
 
-    // TODO: Check if you've reached the goal. If so, return grid.
-	if((x == goal[0]) && (y == goal[1]))
+    // Check if we're done.
+    if (x == goal[0] && y == goal[1]) {
       return grid;
+    }
     
-    // If we're not done, expand search to current node's neighbors. This step will be completed in a later quiz.
+    // If we're not done, expand search to current node's neighbors.
     // ExpandNeighbors
-  
-  //} // TODO: End while loop
   }
+  
   // We've run out of new nodes to explore and haven't found a path.
   cout << "No path found!" << "\n";
   return std::vector<vector<State>>{};
@@ -151,4 +161,5 @@ int main() {
   TestAddToOpen();
   TestCompare();
   TestSearch();
+  TestCheckValidCell();
 }
