@@ -12,7 +12,8 @@ using std::string;
 using std::vector;
 using std::abs;
 
-enum class State {kEmpty, kObstacle, kClosed, kPath};
+// TODO: Add kStart and kFinish enumerators to the State enum.
+enum class State {kEmpty, kObstacle, kClosed, kPath, kStart, kFinish};
 
 // directional deltas
 const int delta[4][2]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
@@ -97,33 +98,26 @@ void AddToOpen(int x, int y, int g, int h, vector<vector<int>> &openlist, vector
 /** 
  * Expand current nodes's neighbors and add them to the open list.
  */
-// TODO: ExpandNeighbors(arguments) {
-void ExpandNeighbors(const vector<int> &currNode, int goal[2], vector<vector<int>> &openlist, vector<vector<State>> &grid)
-{
-  // TODO: Get current node's data.
-  int currx = currNode[0];
-  int curry = currNode[1];
-  int gcurr = currNode[2];
+void ExpandNeighbors(const vector<int> &current, int goal[2], vector<vector<int>> &openlist, vector<vector<State>> &grid) {
+  // Get current node's data.
+  int x = current[0];
+  int y = current[1];
+  int g = current[2];
 
-  // TODO: Loop through current node's potential neighbors.
-	for(int i = 0; i<4; i++)
-    {
-      int x2 = delta[i][0] + currx;
-      int y2 = delta[i][1] + curry;
-    // TODO: Check that the potential neighbor's x2 and y2 values are on the grid and not closed.
-      auto bValidCell = CheckValidCell(x2, y2, grid);
-	
-      // TODO: Increment g value, compute h value, and add neighbor to open list.
-      if(bValidCell)
-      {
-        int g2 = gcurr + 1;
-        int h2 = Heuristic(x2, y2, goal[0], goal[1]);
-        AddToOpen(x2,y2,g2,h2, openlist, grid);
-      }
+  // Loop through current node's potential neighbors.
+  for (int i = 0; i < 4; i++) {
+    int x2 = x + delta[i][0];
+    int y2 = y + delta[i][1];
+
+    // Check that the potential neighbor's x2 and y2 values are on the grid and not closed.
+    if (CheckValidCell(x2, y2, grid)) {
+      // Increment g value and add neighbor to open list.
+      int g2 = g + 1;
+      int h2 = Heuristic(x2, y2, goal[0], goal[1]);
+      AddToOpen(x2, y2, g2, h2, openlist, grid);
     }
+  }
 }
-
-// } TODO: End the function
 
 
 /** 
@@ -151,6 +145,10 @@ vector<vector<State>> Search(vector<vector<State>> grid, int init[2], int goal[2
 
     // Check if we're done.
     if (x == goal[0] && y == goal[1]) {
+      // TODO: Set the init grid cell to kStart, and 
+      // set the goal grid cell to kFinish before returning the grid. 
+      grid[init[0]][init[1]] = State::kStart;
+      grid[goal[0]][goal[1]] = State::kFinish;
       return grid;
     }
     
@@ -168,6 +166,10 @@ string CellString(State cell) {
   switch(cell) {
     case State::kObstacle: return "⛰️   ";
     case State::kPath: return "🚗   ";
+    case State::kStart: return "🚦   ";
+    case State::kFinish: return "🏁   ";
+    // TODO: Add cases to return "🚦   " for kStart
+    // and "🏁   " for kFinish.
     default: return "0   "; 
   }
 }
