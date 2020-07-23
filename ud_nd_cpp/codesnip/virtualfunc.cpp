@@ -4,6 +4,7 @@
 
 // TODO: Define pi
 #define pi  3.141759
+
 // TODO: Define the abstract class Shape
 class Shape{
   // TODO: Define public virtual functions Area() and Perimeter()
@@ -18,8 +19,9 @@ class Rectangle : Shape{
   // TODO: Declare public constructor
   public:
   Rectangle(int width, int height) : width_(width), height_(height){ }
+  
   // TODO: Override virtual base class functions Area() and Perimeter()
-  float Area() const{
+  float Area() const override{ //adding override is a good practice to let programmers and compilers know
       return width_ * height_;
   }
   float Perimeter() const;
