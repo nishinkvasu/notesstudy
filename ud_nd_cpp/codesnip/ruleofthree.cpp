@@ -115,5 +115,21 @@ int main(){
     return 0;
 }
 
+/*
+
+int main()
+{
+    MyMovableClass obj1(100); // constructor
+
+   // useObject(obj1);
+    useObject(std::move(obj1));
+    
+    useObject(MyMovableClass(200));
+        
+    return 0;
+}
+
+*/
+
 // need to compile this program with g++ -fno-elide-constructors .\ruleofthree.cpp while using cpp11/cpp14
 // then the move constructor part will not be optimized
