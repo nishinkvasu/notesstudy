@@ -29,14 +29,14 @@ int main(){
     std::cout<< "Objects have address " << &myClass1<< " and " << &myClass2 << std::endl;
     std::cout<< "Objects have raw address " << myClass1.get() << " and " << myClass2.get() << std::endl;
     
-    std::string::iterator it = myClass1->_text.begin();
-    char* _ptr = &(*it);
-    int* pttr = (int *)&_ptr[0];
-    std::cout << "beginning of class1 string - " << (char *)pttr << " is here "<<pttr<< "\n";
+    // std::string::iterator it = myClass1->_text.begin();
+    // char* _ptr = &(*it);
+    // int* pttr = (int *)&_ptr[0];
+    // std::cout << "beginning of class1 string - " << (char *)pttr << " is here "<<pttr<< "\n";
 
-    it = myClass2->_text.begin();
-    pttr = (int *) &(*it);
-    std::cout << "beginning of class2 string - " << (char *)pttr << " is here "<<pttr<< "\n";
+    // it = myClass2->_text.begin();
+    // pttr = (int *) &(*it);
+    // std::cout << "beginning of class2 string - " << (char *)pttr << " is here "<<pttr<< "\n";
 
     delete b;
     return 0;
